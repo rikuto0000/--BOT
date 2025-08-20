@@ -60,7 +60,18 @@ client.on(Events.InteractionCreate, async interaction => {
 		await command.execute(client,interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'コマンドがありません', ephemeral: true });
+		
+		// インタラクションがまだ応答されていない場合のみ応答
+		if (!interaction.replied && !interaction.deferred) {
+			try {
+				await interaction.reply({ 
+					content: 'コマンド実行中にエラーが発生しました。', 
+					flags: 64 // MessageFlags.Ephemeral の値
+				});
+			} catch (replyError) {
+				console.error('Failed to send error response:', replyError);
+			}
+		}
 	}
 });
 

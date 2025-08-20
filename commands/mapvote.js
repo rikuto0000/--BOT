@@ -35,7 +35,7 @@ module.exports = {
         if (!vcChannel) {
             return await interaction.reply({
                 content: '指定されたボイスチャンネルが見つかりません。',
-                ephemeral: true
+                flags: 64
             });
         }
 
@@ -45,7 +45,7 @@ module.exports = {
         if (participants.length < 2) {
             return await interaction.reply({
                 content: `マップ投票には最低2人必要です。現在VC人数: ${participants.length}人`,
-                ephemeral: true
+                flags: 64
             });
         }
 
@@ -100,7 +100,7 @@ module.exports = {
             if (!participants.some(p => p.id === buttonInteraction.user.id)) {
                 return await buttonInteraction.reply({
                     content: 'このボイスチャンネルのメンバーのみ投票できます。',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 

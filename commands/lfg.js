@@ -117,7 +117,7 @@ module.exports = {
             if (lfgPosts.has(userId)) {
                 return await interaction.reply({
                     content: '既に募集を作成しています。新しい募集を作成する前に、現在の募集を削除してください。',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -125,7 +125,7 @@ module.exports = {
             if (timeOption === 'now' && !voiceChannel) {
                 return await interaction.reply({
                     content: '「今から」を選んだ場合は、ボイスチャンネルを指定してください',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -133,7 +133,7 @@ module.exports = {
             if (timeOption === 'time' && !customTime) {
                 return await interaction.reply({
                     content: '時刻指定を選んだ場合は、開始時刻を入力してください（例: 15:30）',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -141,7 +141,7 @@ module.exports = {
             if (timeOption === 'date' && !customDate) {
                 return await interaction.reply({
                     content: '日付指定を選んだ場合は、日付と時刻を入力してください（例: 12/25 20:00、2024/1/1 15:30）',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -155,7 +155,7 @@ module.exports = {
                 if (!timeRegex.test(customTime)) {
                     return await interaction.reply({
                         content: '時刻の形式が正しくありません。HH:MM形式で入力してください（例: 15:30、9:00、22:45）',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -196,14 +196,14 @@ module.exports = {
                 } else {
                     return await interaction.reply({
                         content: '日付時刻の形式が正しくありません。「MM/DD HH:MM」または「YYYY/MM/DD HH:MM」形式で入力してください\\n（例: 12/25 20:00、2024/1/1 15:30）',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
                 
                 if (targetDate < now) {
                     return await interaction.reply({
                         content: '指定された日時が過去になっています。未来の日時を指定してください。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
                 
@@ -295,7 +295,7 @@ module.exports = {
             const message = await interaction.reply({
                 embeds: [embed],
                 components: [row],
-                fetchReply: true
+                withResponse: true
             });
 
             // メッセージIDを保存
@@ -310,12 +310,12 @@ module.exports = {
                         await member.voice.setChannel(voiceChannel);
                         await interaction.followUp({
                             content: `🔊 <#${voiceChannel.id}> に移動しました。参加者も自動的にこのチャンネルに移動されます。`,
-                            ephemeral: true
+                            flags: 64
                         });
                     } else {
                         await interaction.followUp({
                             content: `🔊 募集が作成されました。<#${voiceChannel.id}> に移動してください。\n参加者は自動的にこのチャンネルに移動されます。`,
-                            ephemeral: true
+                            flags: 64
                         });
                     }
                 } catch (error) {
@@ -327,7 +327,7 @@ module.exports = {
             if (lfgPosts.size === 0) {
                 return await interaction.reply({
                     content: '現在、募集はありません。',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -346,7 +346,7 @@ module.exports = {
 
             await interaction.reply({
                 embeds: [embed],
-                ephemeral: true
+                flags: 64 // MessageFlags.Ephemeral
             });
 
         } else if (subcommand === 'delete') {
@@ -355,14 +355,14 @@ module.exports = {
             if (!lfgPosts.has(userId)) {
                 return await interaction.reply({
                     content: '削除する募集がありません。',
-                    ephemeral: true
+                    flags: 64 // MessageFlags.Ephemeral
                 });
             }
 
             lfgPosts.delete(userId);
             await interaction.reply({
                 content: '募集を削除しました。',
-                ephemeral: true
+                flags: 64 // MessageFlags.Ephemeral
             });
         }
     },

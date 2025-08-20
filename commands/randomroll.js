@@ -27,7 +27,7 @@ module.exports = {
         if (!vcChannel) {
             return await interaction.reply({
                 content: '指定されたボイスチャンネルが見つかりません。',
-                ephemeral: true
+                flags: 64
             });
         }
 
@@ -37,7 +37,7 @@ module.exports = {
         if (vcMembers.length < 5) {
             return await interaction.reply({
                 content: `ロール分けには最低5人必要です。現在VC人数: ${vcMembers.length}人`,
-                ephemeral: true
+                flags: 64
             });
         }
 
@@ -76,7 +76,7 @@ module.exports = {
             const response = await interaction.reply({
                 embeds: [embed],
                 components: [row],
-                ephemeral: true
+                flags: 64
             });
 
             try {

@@ -35,7 +35,7 @@ module.exports = {
             if (!lfgData) {
                 return await interaction.reply({
                     content: 'この募集は既に終了しているか、存在しません。',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -44,7 +44,7 @@ module.exports = {
                 if (lfgData.currentPlayers.some(p => p.user.id === interaction.user.id)) {
                     return await interaction.reply({
                         content: '既にこの募集に参加しています。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -52,7 +52,7 @@ module.exports = {
                 if (lfgData.currentPlayers.length >= lfgData.totalPlayers) {
                     return await interaction.reply({
                         content: 'この募集は既に満員です。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -134,7 +134,7 @@ module.exports = {
                 if (lfgData.currentPlayers.some(p => p.user.id === interaction.user.id)) {
                     return await interaction.reply({
                         content: '既にこの募集に参加しています。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -142,7 +142,7 @@ module.exports = {
                 if (lfgData.currentPlayers.length >= lfgData.totalPlayers) {
                     return await interaction.reply({
                         content: 'この募集は既に満員です。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -165,7 +165,7 @@ module.exports = {
                 await interaction.reply({
                     content: '🎯 希望ロールを選択してください:',
                     components: [row],
-                    ephemeral: true
+                    flags: 64
                 });
 
             } else if (action === 'leave') {
@@ -173,7 +173,7 @@ module.exports = {
                 if (interaction.user.id === lfgData.author.id) {
                     return await interaction.reply({
                         content: '募集者は離脱できません。募集を削除するには `/lfg delete` を使用してください。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -181,7 +181,7 @@ module.exports = {
                 if (!lfgData.currentPlayers.some(p => p.user.id === interaction.user.id)) {
                     return await interaction.reply({
                         content: 'この募集に参加していません。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -232,7 +232,7 @@ module.exports = {
                 if (interaction.user.id !== lfgData.author.id) {
                     return await interaction.reply({
                         content: '募集者のみが募集を終了できます。',
-                        ephemeral: true
+                        flags: 64
                     });
                 }
 
@@ -325,7 +325,7 @@ module.exports = {
             if (interaction.user.id !== userId) {
                 return await interaction.reply({
                     content: 'この選択メニューはあなた用ではありません。',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -341,7 +341,7 @@ module.exports = {
             if (!lfgData) {
                 return await interaction.reply({
                     content: 'この募集は既に終了しているか、存在しません。',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -349,7 +349,7 @@ module.exports = {
             if (lfgData.currentPlayers.length >= lfgData.totalPlayers) {
                 return await interaction.reply({
                     content: 'この募集は既に満員です。',
-                    ephemeral: true
+                    flags: 64
                 });
             }
 
@@ -426,7 +426,7 @@ module.exports = {
             const lfgCommand = require('../commands/lfg.js');
             await interaction.reply({
                 content: `✅ ${lfgCommand.getRoleEmoji(selectedRole)} ${lfgCommand.getRoleName(selectedRole)}希望で募集に参加しました！`,
-                ephemeral: true
+                flags: 64
             });
 
             // 満員になったら通知

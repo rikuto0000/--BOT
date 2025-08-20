@@ -17,17 +17,37 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands for ${guildIds.length} servers.`);
 		
+		let successCount = 0;
+		let errorCount = 0;
+		
 		// 各サーバーにコマンドをデプロイ
 		for (const guildId of guildIds) {
-			const data = await rest.put(
-				Routes.applicationGuildCommands(clientId, guildId),
-				{ body: commands },
-			);
-			console.log(`Successfully reloaded ${data.length} commands for server ${guildId}`);
+			try {
+				const data = await rest.put(
+					Routes.applicationGuildCommands(clientId, guildId),
+					{ body: commands },
+				);
+				console.log(`✅ Successfully reloaded ${data.length} commands for server ${guildId}`);
+				successCount++;
+			} catch (error) {
+				if (error.code === 50001) {
+					console.log(`❌ Missing access to server ${guildId}. Bot may not be added to this server or lacks permissions.`);
+				} else {
+					console.log(`❌ Failed to deploy commands to server ${guildId}:`, error.message);
+				}
+				errorCount++;
+			}
 		}
 		
-		console.log('All servers updated successfully!');
+		console.log(`\n=== Deploy Summary ===`);
+		console.log(`✅ Success: ${successCount}/${guildIds.length} servers`);
+		console.log(`❌ Failed: ${errorCount}/${guildIds.length} servers`);
+		
+		if (errorCount > 0) {
+			console.log(`\n📝 Note: Failed servers may require bot re-invitation or permission adjustments.`);
+		}
+		
 	} catch (error) {
-		console.error(error);
+		console.error('Unexpected error:', error);
 	}
 })();
